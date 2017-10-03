@@ -24,6 +24,10 @@ module.exports = {
   },
   // add your custom rules here
   'rules': {
+    'func-names': 'off',
+    'object-shorthand': 'off',
+    'linebreak-style': 'off',
+    'no-console': 'off',
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',
