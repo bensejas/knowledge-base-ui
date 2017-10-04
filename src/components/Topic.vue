@@ -1,11 +1,10 @@
 <template>
-  <div class="myList">
+  <div class="topic-content">
     <h1>{{ topic.name }}</h1>
-    <p>The id: {{ id }}</p>
-
+    <input v-model="search" class="search" type="text" placeholder="Search related topics">
     <ul v-if="topic && topic.links && topic.links.length">
-      <li v-for="links of topic.links">
-        <h3><router-link :to="{ name: 'Topic', params: { id: links.topicId }}">{{links.name}}</router-link></h3>
+      <li v-for="links of filteredList">
+        <h4><router-link :to="{ name: 'Topic', params: { id: links.topicId }}">{{links.name}}</router-link></h4>
         <p>{{ links.description }}</p>
       </li>
     </ul>
@@ -18,12 +17,16 @@ import axios from 'axios';
 export default {
   name: 'topic',
   props: ['id'],
-  methods: {
+  computed: {
+    filteredList: function () {
+      return this.topic.links.filter(topic => topic.name.toLowerCase().indexOf(this.search && this.search.toLowerCase()) !== -1);
+    },
   },
   data: () => ({
     topic: {},
     errors: [],
     text: '',
+    search: '',
   }),
   watch: {
     id: function (value) {
@@ -77,10 +80,15 @@ ul {
 }
 
 li {
-  margin: 0 10px;
+  margin: 0;
 }
 
-a {
-  color: #42b983;
-}
+  .topic-content {
+    padding: 20px;
+  }
+
+  .search {
+    margin: 0;
+  }
+
 </style>
