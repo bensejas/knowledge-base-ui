@@ -7,8 +7,12 @@
     </div>
     <div class="body">
       <div class="side-bar">
-        <input v-model="search" class="search" type="text" placeholder="Search topics">
         <h3>Topics</h3>
+        <input v-model="search" class="search" type="text" placeholder="Search or Create topics">
+        <div class="create-topic-label" v-if="search && notInFilteredList">
+          <button class="btn" v-on:click="createTopic">Create Topic: {{ search }}</button>
+        </div>
+
         <div class="topic-menu">
           <ul v-if="topics && topics.length">
             <li v-for="topic of filteredList">
@@ -34,16 +38,47 @@
       filteredList: function () {
         return this.topics.filter(topic => topic.name.toLowerCase().indexOf(this.search && this.search.toLowerCase()) !== -1);
       },
+      notInFilteredList: function () {
+        return !this.filteredList.filter(topic => topic.name.toLowerCase() === this.search.toLowerCase()).length;
+      },
+    },
+    methods: {
+      createTopic: function () {
+        if (this.creatingTopic) return;
+
+        this.creatingTopic = true;
+        axios.post('/api/topics', { name: this.search })
+          .then(() => {
+            this.loadTopics().then(() => {
+              this.creatingTopic = false;
+            });
+          })
+          .catch((e) => {
+            this.creatingTopic = false;
+            this.errors.push(e);
+          });
+      },
+      loadTopics: function () {
+        axios.get('/api/topics')
+          .then((response) => {
+            // JSON responses are automatically parsed.
+            this.topics = response.data;
+          })
+          .catch((e) => {
+            this.errors.push(e);
+          });
+      },
     },
     data: () => ({
       topics: [],
       errors: [],
       search: '',
+      creatingTopic: false,
     }),
 
     // Fetches posts when the component is created.
     created() {
-      axios.get('http://localhost:8080/api/topics')
+      axios.get('/api/topics')
         .then((response) => {
           // JSON responses are automatically parsed.
           this.topics = response.data;
@@ -79,6 +114,7 @@
 
   .side-bar ul {
     text-align: left;
+    font-size: 14px;
   }
 
   body {
@@ -137,7 +173,17 @@
   }
 
   .side-bar h3 {
-    margin: 5px 0 0 15px;
+    margin: 15px 0 0 15px;
+  }
+
+  .side-bar ul {
+    margin-top: 0;
+  }
+
+  .create-topic-label {
+    font-size: 14px;
+    margin-left: 15px;
+    line-height: 30px;
   }
 
   h4 a {
@@ -147,8 +193,9 @@
   p {
     margin-top: 0;
     margin-bottom: 5px;
-    font-size: 15px;
-    font-weight: 100;
+    font-size: 14px;
+    font-weight: 400;
+    color: #888;
   }
 
   ul {
@@ -187,4 +234,17 @@
     font-weight: 600;
     color: #fff;
   }
+
+  .btn {
+    border: 1px solid #328CC1;
+    color: #328CC1;
+    font-weight: 600;
+    padding: 5px 15px;
+    border-radius: 15px;
+    background-color: #ecf8ff;
+    font-size: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+
 </style>

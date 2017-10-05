@@ -31,7 +31,7 @@ export default {
   watch: {
     id: function (value) {
       const vm = this;
-      axios.get(`http://localhost:8080/api/topics/${value}`)
+      axios.get(`/api/topics/${value}`)
         .then((response) => {
           // JSON responses are automatically parsed.
           vm.topic = response.data;
@@ -44,7 +44,7 @@ export default {
 
   // Fetches posts when the component is created.
   created() {
-    axios.get(`http://localhost:8080/api/topics/${this.id}`)
+    axios.get(`/api/topics/${this.id}`)
       .then((response) => {
         // JSON responses are automatically parsed.
         this.topic = response.data;
