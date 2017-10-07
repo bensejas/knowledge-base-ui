@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="welcome">
     <h1>{{ msg }}</h1>
   </div>
 </template>
@@ -17,6 +17,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+  .welcome {
+    margin-left: 15px;
+    margin-top: 15px;
+  }
 h1, h2 {
   font-weight: normal;
 }

@@ -48,7 +48,8 @@
 
         this.creatingTopic = true;
         axios.post('/api/topics', { name: this.search })
-          .then(() => {
+          .then((response) => {
+            this.$router.push({ name: 'Topic', params: { id: response.data._id } });
             this.loadTopics().then(() => {
               this.creatingTopic = false;
             });
@@ -135,6 +136,19 @@
     flex-direction: column;
   }
 
+  textarea {
+    font-family: 'Source Sans Pro', 'Avenir', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 5px;
+    border-color: #cdcdcd;
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 110px;
+  }
+
   .header {
     display: flex;
     height: 30px;
@@ -159,7 +173,11 @@
     flex: 0 0 auto;
     margin: 15px;
     border: 1px solid #ccc;
-    padding: 10px 20px;
+    padding: 5px 20px;
+  }
+
+  h1 {
+    margin-top: 0;
   }
 
   h3, h4 {
@@ -206,13 +224,22 @@
 
   .topic-menu {
     margin-left: 15px;
-    line-height: 30px;
+    line-height: 22px;
+  }
+
+  .topic-menu a {
+    width: 100%;
+    display: inline-block;
   }
 
   .topic-menu a:visited {
-    /*color: #0B3C5D;*/
     color: #328CC1;
     font-weight: 600;
+  }
+
+  .topic-menu a:hover {
+    background-color: #ecf8ff;
+    /*text-decoration: underline;*/
   }
 
   a {
@@ -247,4 +274,31 @@
     cursor: pointer;
   }
 
+  .btn-secondary {
+    border: 1px solid #777777;
+    color: #888888;
+    background-color: #fff;
+    font-weight: 400;
+  }
+
+  .v-select {
+    font-family: 'Source Sans Pro', 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    font-size: 14px;
+    width: 300px;
+  }
+
+  .v-select .dropdown-toggle {
+    display: flex;
+    overflow: hidden;
+  }
+  .v-select .selected-tag {
+    flex: 1 0 auto;
+    pointer-events: none;
+  }
+  .v-select input[type=search] {
+    flex: 1 1 auto;
+  }
 </style>

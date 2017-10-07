@@ -28,6 +28,9 @@ module.exports = {
     'object-shorthand': 'off',
     'linebreak-style': 'off',
     'no-console': 'off',
+    'arrow-body-style': 'off',
+    'no-underscore-dangle': 'off',
+    'comma-dangle': 'off',
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',
