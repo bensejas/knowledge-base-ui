@@ -60,6 +60,17 @@ export default {
           this.errors.push(e);
         });
     },
+  },
+  watch: {
+    selectedTopicLink: function (selectedTopic) {
+//      debugger;
+      const topic = this.$parent.topic.links.filter(link => link.topicId === selectedTopic.value._id);
+      if (topic.length) {
+        this.description = topic[0].description;
+      } else {
+        this.description = '';
+      }
+    },
   }
 };
 </script>
