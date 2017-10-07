@@ -6,9 +6,9 @@
     <button class="btn" id="show-create-topic-link" @click="showModal = true">Create or Update a Topic Link</button>
     <create-topic-link-modal v-if="showModal" :options="selectTopics" @close="onModalClose"></create-topic-link-modal>
     <ul v-if="topic && topic.links && topic.links.length">
-      <li v-for="links of filteredList">
+      <li v-for="links of filteredList" class="topic-link-container">
         <h4><router-link :to="{ name: 'Topic', params: { id: links.topicId }}">{{links.name}}</router-link></h4>
-        <p>{{ links.description }}</p>
+        <p>{{ links.description }}<i class="fa fa-pencil" aria-hidden="true"></i></p>
       </li>
     </ul>
   </div>
@@ -79,15 +79,6 @@ export default {
       .catch((e) => {
         this.errors.push(e);
       });
-
-    // async / await version (created() becomes async created())
-    //
-    // try {
-    //   const response = await axios.get(`http://jsonplaceholder.typicode.com/posts`)
-    //   this.posts = response.data
-    // } catch (e) {
-    //   this.errors.push(e)
-    // }
   },
 };
 </script>
@@ -119,6 +110,16 @@ li {
 
   .search {
     margin: 0;
+  }
+
+  .topic-link-container .fa-pencil {
+    padding: 0 5px;
+    color: #eaeaea;
+    cursor: pointer;
+  }
+
+  .topic-link-container .fa-pencil:hover {
+    color: #2c3e50;
   }
 
 </style>

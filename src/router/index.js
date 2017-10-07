@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Hello from '@/components/Hello';
+import Welcome from '@/components/Welcome';
 import List from '@/components/List';
 import Topic from '@/components/Topic';
 
@@ -11,8 +11,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello,
+      name: 'Welcome',
+      component: Welcome,
     },
     {
       path: '/List',

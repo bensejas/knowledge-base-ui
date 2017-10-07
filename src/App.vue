@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <div class="header">
-      <!--<i class="fa fa-book logo" aria-hidden="true"></i>-->
-      <span class="kb-logo">kb</span>
+      <router-link :to="{ name: 'Welcome' }"><span class="kb-logo">kb</span></router-link>
       <span class="title">Knowledge Base</span>
     </div>
     <div class="body">
@@ -62,7 +61,6 @@
       loadTopics: function () {
         axios.get('/api/topics')
           .then((response) => {
-            // JSON responses are automatically parsed.
             this.topics = response.data;
           })
           .catch((e) => {
@@ -77,31 +75,19 @@
       creatingTopic: false,
     }),
 
-    // Fetches posts when the component is created.
     created() {
       axios.get('/api/topics')
         .then((response) => {
-          // JSON responses are automatically parsed.
           this.topics = response.data;
         })
         .catch((e) => {
           this.errors.push(e);
         });
-
-      // async / await version (created() becomes async created())
-      //
-      // try {
-      //   const response = await axios.get(`http://jsonplaceholder.typicode.com/posts`)
-      //   this.posts = response.data
-      // } catch (e) {
-      //   this.errors.push(e)
-      // }
     },
   };
 </script>
 
 <style>
-  /* http://paletton.com/#uid=33O0u0kuaBaiLJjocE5AxsJCZmp */
   .body {
     display: flex;
   }
