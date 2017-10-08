@@ -133,6 +133,7 @@
     width: 100%;
     box-sizing: border-box;
     min-height: 110px;
+    outline: 0;
   }
 
   .header {
@@ -160,6 +161,7 @@
     margin: 15px;
     border: 1px solid #ccc;
     padding: 5px 20px;
+    outline: 0;
   }
 
   h1 {
@@ -258,6 +260,7 @@
     font-size: 12px;
     margin-bottom: 8px;
     cursor: pointer;
+    outline: 0;
   }
 
   .btn-secondary {
