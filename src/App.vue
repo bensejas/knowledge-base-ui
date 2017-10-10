@@ -250,6 +250,17 @@
     color: #fff;
   }
 
+  .text-field {
+    font-family: 'Source Sans Pro', 'Avenir', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #cdcdcd;
+    width: 100%;
+    box-sizing: border-box;
+    outline: 0;
+  }
+
   .btn {
     border: 1px solid #328CC1;
     color: #328CC1;

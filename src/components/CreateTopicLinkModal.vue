@@ -1,6 +1,6 @@
 <template>
   <div>
-  <modal @close="$emit('close')">
+  <modal>
     <h3 slot="header">Create or Update Topic Link</h3>
     <div slot="body">
       <div class="field">

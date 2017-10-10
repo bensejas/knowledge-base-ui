@@ -1,6 +1,12 @@
 <template>
   <div class="topic-content">
-    <h1>{{ topic.name }}</h1>
+    <h1>{{ topic.name }}<i class="fa fa-pencil" aria-hidden="true" @click="showEditTopicModal = true"></i></h1>
+    <div class="topic-description">
+      {{ topic.description }}
+      <span class="edit-topic-description" v-if="!topic || !topic.description" @click="showEditTopicModal = true">Add description here</span>
+      <i class="fa fa-pencil" aria-hidden="true" @click="showEditTopicModal = true"></i>
+      <edit-topic-modal v-if="showEditTopicModal" :topic="topic" @close="onEditTopicModalClose"></edit-topic-modal>
+    </div>
     <input v-model="search" class="search" type="text" placeholder="Search related topics">
     <!--<v-select v-model="selectedTopicLink" :options="selectTopics"></v-select>-->
     <button class="btn" id="show-create-topic-link" @click="showModal = true">Create or Update a Topic Link</button>
@@ -35,6 +41,7 @@ export default {
   },
   data: () => ({
     showModal: false,
+    showEditTopicModal: false,
     topic: {},
     errors: [],
     text: '',
@@ -43,6 +50,10 @@ export default {
   methods: {
     onModalClose: function () {
       this.showModal = false;
+      this.reloadTopic();
+    },
+    onEditTopicModalClose: function () {
+      this.showEditTopicModal = false;
       this.reloadTopic();
     },
     reloadTopic: function () {
@@ -85,6 +96,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .edit-topic-description {
+    cursor: pointer;
+    color: #d4d9d8;
+  }
+  .edit-topic-description:hover {
+    color: #2c3e50;
+  }
+  .topic-description {
+    margin-bottom: 25px;
+  }
   #show-create-topic-link {
     margin-left: 15px;
   }
@@ -93,6 +114,11 @@ export default {
   }
 h1, h2 {
   font-weight: normal;
+}
+
+h1 .fa-pencil {
+  font-size: 20px;
+  margin-left: 5px;
 }
 
 ul {
@@ -112,13 +138,13 @@ li {
     margin: 0;
   }
 
-  .topic-link-container .fa-pencil {
+  .topic-content .fa-pencil {
     padding: 0 5px;
     color: #eaeaea;
     cursor: pointer;
   }
 
-  .topic-link-container .fa-pencil:hover {
+  .topic-content .fa-pencil:hover {
     color: #2c3e50;
   }
 
