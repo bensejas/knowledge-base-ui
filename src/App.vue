@@ -50,10 +50,12 @@
           .then((response) => {
             this.$router.push({ name: 'Topic', params: { id: response.data._id } });
             this.loadTopics().then(() => {
+              this.search = '';
               this.creatingTopic = false;
             });
           })
           .catch((e) => {
+            this.search = '';
             this.creatingTopic = false;
             this.errors.push(e);
           });
