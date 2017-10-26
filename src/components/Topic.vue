@@ -99,6 +99,7 @@ export default {
   },
   watch: {
     id: function (value) {
+      window.scrollTo(0, 0);
       const vm = this;
       axios.get(`/api/topics/${value}`)
         .then((response) => {
