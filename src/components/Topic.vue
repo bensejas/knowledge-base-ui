@@ -2,7 +2,7 @@
   <div class="topic-content">
     <h1>{{ topic.name }}<i class="fa fa-pencil" aria-hidden="true" @click="showEditTopicModal = true"></i></h1>
     <div class="topic-description">
-      <span v-html="anchorme(topic.description || '', anchormeOptions)"></span>
+      <span v-html="topicDescription"></span>
       <span class="edit-topic-description" v-if="!topic || !topic.description" @click="showEditTopicModal = true">Add description here</span>
       <i class="fa fa-pencil" aria-hidden="true" @click="showEditTopicModal = true"></i>
       <edit-topic-modal v-if="showEditTopicModal" :topic="topic" @close="onEditTopicModalClose"></edit-topic-modal>
@@ -13,7 +13,7 @@
     <ul v-if="topic && topic.links && topic.links.length">
       <li v-for="link of filteredList" class="topic-link-container">
         <h4><router-link :to="{ name: 'Topic', params: { id: link.topicId }}">{{link.name}}</router-link></h4>
-        <p class="topic-link-description"><span v-html="anchorme(link.description || '', anchormeOptions)"></span><i class="fa fa-pencil" @click="editTopicLink(link)" aria-hidden="true"></i></p>
+        <p class="topic-link-description"><span v-html="formatTextForHTML(link.description)"></span><i class="fa fa-pencil" @click="editTopicLink(link)" aria-hidden="true"></i></p>
       </li>
     </ul>
   </div>
@@ -38,6 +38,13 @@ export default {
         return { label: topic.name, value: topic };
       });
     },
+    topicDescription: function () {
+      if (!this.topic || !this.topic.description) {
+        return '';
+      }
+      const des = this.topic.description.replace(/\n/g, '<br>');
+      return anchorme(des || '', this.anchormeOptions);
+    }
   },
   data: () => ({
     showModal: false,
@@ -57,6 +64,13 @@ export default {
     }
   }),
   methods: {
+    formatTextForHTML: function (text) {
+      if (!text) {
+        return '';
+      }
+      const output = text.replace(/\n/g, '<br>');
+      return anchorme(output || '', this.anchormeOptions);
+    },
     openCreateTopicLinkModal: function () {
       this.selectedTopicLink = '';
       this.showModal = true;
