@@ -29,12 +29,12 @@ import axios from 'axios';
 
 export default {
   name: 'createTopicLinkModal',
-  props: ['options'],
+  props: ['options', 'selectedTopicLinkProp'],
   data() {
     return {
-      selectedTopicLink: '',
       description: '',
       creatingTopicLink: false,
+      selectedTopicLink: ''
     };
   },
   methods: {
@@ -63,7 +63,6 @@ export default {
   },
   watch: {
     selectedTopicLink: function (selectedTopic) {
-//      debugger;
       const topic = this.$parent.topic.links.filter(link => link.topicId === selectedTopic.value._id);
       if (topic.length) {
         this.description = topic[0].description;
@@ -71,6 +70,19 @@ export default {
         this.description = '';
       }
     },
+  },
+  created() {
+    this.selectedTopicLink = this.selectedTopicLinkProp ? Object.assign({}, this.selectedTopicLinkProp) : '';
+    if (!this.selectedTopicLink) {
+      return;
+    }
+    const topic = this.$parent.topic.links.filter(link => link.topicId === this.selectedTopicLink.value.topicId);
+    if (topic.length) {
+      this.selectedTopicLink.value._id = this.selectedTopicLink.value.topicId;
+      this.description = topic[0].description;
+    } else {
+      this.description = '';
+    }
   }
 };
 </script>

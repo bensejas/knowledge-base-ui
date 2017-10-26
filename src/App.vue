@@ -7,9 +7,9 @@
     <div class="body">
       <div class="side-bar">
         <h3>Topics</h3>
-        <input v-model="search" class="search" type="text" placeholder="Search or Create topics">
-        <div class="create-topic-label" v-if="search && notInFilteredList">
-          <button class="btn" v-on:click="createTopic">Create Topic: {{ search }}</button>
+        <div class="create-topic-container">
+          <input v-model="search" class="search" type="text" placeholder="Search or Create topics">
+          <button class="btn" v-if="search && notInFilteredList" v-on:click="createTopic">Create</button>
         </div>
 
         <div class="topic-menu">
@@ -194,6 +194,20 @@
     line-height: 30px;
   }
 
+  .create-topic-container {
+    display: flex;
+  }
+
+  .create-topic-container input {
+    margin: 15px 15px 15px 15px;
+    flex: 1 0 0px;
+    width: 40px;
+  }
+  .create-topic-container button {
+    margin: 15px 15px 15px 0;
+    flex: 0 0 0px;
+  }
+
   h4 a {
     font-weight: 600;
   }
@@ -303,4 +317,5 @@
   .v-select input[type=search] {
     flex: 1 1 auto;
   }
+
 </style>

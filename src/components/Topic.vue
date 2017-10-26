@@ -2,19 +2,18 @@
   <div class="topic-content">
     <h1>{{ topic.name }}<i class="fa fa-pencil" aria-hidden="true" @click="showEditTopicModal = true"></i></h1>
     <div class="topic-description">
-      {{ topic.description }}
+      <span v-html="anchorme(topic.description || '', anchormeOptions)"></span>
       <span class="edit-topic-description" v-if="!topic || !topic.description" @click="showEditTopicModal = true">Add description here</span>
       <i class="fa fa-pencil" aria-hidden="true" @click="showEditTopicModal = true"></i>
       <edit-topic-modal v-if="showEditTopicModal" :topic="topic" @close="onEditTopicModalClose"></edit-topic-modal>
     </div>
     <input v-model="search" class="search" type="text" placeholder="Search related topics">
-    <!--<v-select v-model="selectedTopicLink" :options="selectTopics"></v-select>-->
-    <button class="btn" id="show-create-topic-link" @click="showModal = true">Create or Update a Topic Link</button>
-    <create-topic-link-modal v-if="showModal" :options="selectTopics" @close="onModalClose"></create-topic-link-modal>
+    <button class="btn" id="show-create-topic-link" @click="openCreateTopicLinkModal">Create or Update a Topic Link</button>
+    <create-topic-link-modal :selectedTopicLinkProp="selectedTopicLink" v-if="showModal" :options="selectTopics" @close="onModalClose"></create-topic-link-modal>
     <ul v-if="topic && topic.links && topic.links.length">
-      <li v-for="links of filteredList" class="topic-link-container">
-        <h4><router-link :to="{ name: 'Topic', params: { id: links.topicId }}">{{links.name}}</router-link></h4>
-        <p>{{ links.description }}<i class="fa fa-pencil" aria-hidden="true"></i></p>
+      <li v-for="link of filteredList" class="topic-link-container">
+        <h4><router-link :to="{ name: 'Topic', params: { id: link.topicId }}">{{link.name}}</router-link></h4>
+        <p class="topic-link-description"><span v-html="anchorme(link.description || '', anchormeOptions)"></span><i class="fa fa-pencil" @click="editTopicLink(link)" aria-hidden="true"></i></p>
       </li>
     </ul>
   </div>
@@ -22,6 +21,7 @@
 
 <script>
 import axios from 'axios';
+import anchorme from 'anchorme';
 
 export default {
   name: 'topic',
@@ -46,8 +46,25 @@ export default {
     errors: [],
     text: '',
     search: '',
+    selectedTopicLink: {},
+    anchorme: anchorme,
+    anchormeOptions: {
+      attributes: [
+        {
+          name: 'target',
+          value: '_blank'
+        }]
+    }
   }),
   methods: {
+    openCreateTopicLinkModal: function () {
+      this.selectedTopicLink = '';
+      this.showModal = true;
+    },
+    editTopicLink: function (topicLink) {
+      this.selectedTopicLink = { label: topicLink.name, value: topicLink };
+      this.showModal = true;
+    },
     onModalClose: function () {
       this.showModal = false;
       this.reloadTopic();
@@ -95,7 +112,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
   .edit-topic-description {
     cursor: pointer;
     color: #d4d9d8;
@@ -146,6 +163,16 @@ li {
 
   .topic-content .fa-pencil:hover {
     color: #2c3e50;
+  }
+
+  .topic-link-description a {
+    color: #aaa;
+    text-decoration: underline;
+  }
+
+  .topic-description a {
+    color: #aaa;
+    text-decoration: underline;
   }
 
 </style>
